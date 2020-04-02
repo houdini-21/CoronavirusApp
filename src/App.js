@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.css";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import { withStyles, Paper, Grid} from '@material-ui/core'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartBar } from "@fortawesome/free-solid-svg-icons";
 import Grafica from './Componentes/Grafica';
-import Cards from './Componentes/Cards'
+import Cards from './Componentes/Cards';
+import axios from "axios";
 
-const useStyles = makeStyles(theme => ({
+
+const useStyles = theme => ({
   root: {
     display: "flex",
     "& > *": {
@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   tittle: {
-    fontFamily: "Lato"
+    fontFamily: "Lato",
+    fontSize: 30
   },
   container: {
     borderRadius: 10,
@@ -28,10 +29,24 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     color: theme.palette.text.secondary
   }
-}));
+});
 
-function App() {
-  const classes = useStyles();
+class App extends React.Component  {
+
+  componentDidMount() {
+    this.obtenerPost();
+  }
+  
+  obtenerPost = () => {
+    axios.get(`https://covid19.mathdro.id/api/countries/SV`).then(res => {
+  
+      this.setState({
+        datos: res.data
+      });
+    });
+  };
+  render() {
+    const {classes} = this.props;
 
   return (
     <div className="App">
@@ -65,7 +80,7 @@ function App() {
                   <p>informacion</p>
                 </Grid>
                 <Grid item xs={12} sm={5}>
-                <Cards />
+                <Cards datos={this.state}/>
                 </Grid>
               </Grid>
             </div>
@@ -75,5 +90,6 @@ function App() {
     </div>
   );
 }
+}
 
-export default App;
+export default withStyles(useStyles)(App);

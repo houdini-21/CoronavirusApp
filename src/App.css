@@ -19,3 +19,9 @@
 }
 
 
+.MuiPaper-rounded {
+  border-radius: 10px !important;
+}
+.MuiCardContent-root {
+  padding: 10px !important;
+}
