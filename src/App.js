@@ -1,12 +1,11 @@
 import React from "react";
 import "./App.css";
-import { withStyles, Paper, Grid} from '@material-ui/core'
+import { withStyles, Paper, Grid } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartBar } from "@fortawesome/free-solid-svg-icons";
-import Grafica from './Componentes/Grafica';
-import Cards from './Componentes/Cards';
+import Grafica from "./Componentes/Grafica";
+import Cards from "./Componentes/Cards";
 import axios from "axios";
-
 
 const useStyles = theme => ({
   root: {
@@ -31,65 +30,76 @@ const useStyles = theme => ({
   }
 });
 
-class App extends React.Component  {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { confirmados: 0, muertes: 0, recuperados: 0 };
+  }
 
   componentDidMount() {
     this.obtenerPost();
   }
-  
+
   obtenerPost = () => {
     axios.get(`https://covid19.mathdro.id/api/countries/SV`).then(res => {
-  
       this.setState({
-        datos: res.data
+        confirmados: res.data.confirmed.value,
+        muertes: res.data.deaths.value,
+        recuperados: res.data.recovered.value
       });
     });
   };
-  render() {
-    const {classes} = this.props;
 
-  return (
-    <div className="App">
-      <Grid item xs={12} sm={12}>
-        <div className={classes.root}>
-          <Paper elevation={5} className={classes.container}>
-            <Grid
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-              className='title-statistic'
-            >
-              <Grid container direction="row" alignItems="center" wrap="nowrap" spacing={1}>
-                <Grid item>
-                  <FontAwesomeIcon icon={faChartBar} size="lg" />
-                </Grid>
-                <h3 className={classes.tittle}>Estadisticas Coronavirus</h3>
-              </Grid>
-            </Grid>
-            <div className="content">
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className="App">
+        <Grid item xs={12} sm={12}>
+          <div className={classes.root}>
+            <Paper elevation={5} className={classes.container}>
               <Grid
                 container
                 direction="row"
-                justify="center"
+                justify="flex-start"
                 alignItems="center"
-                spacing={1}
+                className="title-statistic"
               >
-                <Grid item xs={12} sm={6}>
-                  <Grafica />
-                  <p>informacion</p>
-                </Grid>
-                <Grid item xs={12} sm={5}>
-                <Cards datos={this.state}/>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  wrap="nowrap"
+                  spacing={1}
+                >
+                  <Grid item>
+                    <FontAwesomeIcon icon={faChartBar} size="lg" />
+                  </Grid>
+                  <h3 className={classes.tittle}>Estadisticas Coronavirus</h3>
                 </Grid>
               </Grid>
-            </div>
-          </Paper>
-        </div>
-      </Grid>
-    </div>
-  );
-}
+              <div className="content">
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Grafica />
+                    <p>informacion</p>
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Cards datos={this.state} />
+                  </Grid>
+                </Grid>
+              </div>
+            </Paper>
+          </div>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default withStyles(useStyles)(App);

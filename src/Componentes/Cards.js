@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import axios from "axios";
 import { Card, withStyles, CardContent, Typography } from "@material-ui/core";
 
 const styles = theme => ({
@@ -19,8 +18,12 @@ const styles = theme => ({
 
 class Cards extends React.Component {
   render() {
-   
+
     const { classes } = this.props;
+
+    const muertes = this.props.datos.muertes;
+    const confirmados = this.props.datos.confirmados;
+    const recuperados =this.props.datos.recuperados;
     return (
       <Grid
         container
@@ -40,7 +43,7 @@ class Cards extends React.Component {
                 component="h3"
                 className={classes.number}
               >
-                30
+               {confirmados}
               </Typography>
             </CardContent>
           </Card>
@@ -56,7 +59,7 @@ class Cards extends React.Component {
                 component="h3"
                 className={classes.number}
               >
-                0
+                {recuperados}
               </Typography>
             </CardContent>
           </Card>
@@ -72,7 +75,7 @@ class Cards extends React.Component {
                 component="h3"
                 className={classes.number}
               >
-                1
+                {muertes}
               </Typography>
             </CardContent>
           </Card>
