@@ -94,7 +94,7 @@ class App extends React.Component {
                     <p>informacion</p>
                   </Grid>
                   <Grid item xs={12} sm={5}>
-               <Loading />
+                  {loading ? <Loading /> : <Cards datos={this.state} />}
                     
                   </Grid>
                 </Grid>
@@ -108,4 +108,3 @@ class App extends React.Component {
 }
 
 export default withStyles(useStyles)(App);
-//{loading ? <Loading /> : <Cards datos={this.state} />}
