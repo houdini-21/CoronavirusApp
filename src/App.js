@@ -6,6 +6,7 @@ import { faChartBar } from "@fortawesome/free-solid-svg-icons";
 import Grafica from "./Componentes/Grafica";
 import Cards from "./Componentes/Cards";
 import axios from "axios";
+import Loading from './Componentes/Loading'
 
 const useStyles = theme => ({
   root: {
@@ -33,7 +34,7 @@ const useStyles = theme => ({
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { confirmados: 0, muertes: 0, recuperados: 0 };
+    this.state = {loading:true, confirmados: 0, muertes: 0, recuperados: 0 };
   }
 
   componentDidMount() {
@@ -43,15 +44,18 @@ class App extends React.Component {
   obtenerPost = () => {
     axios.get(`https://covid19.mathdro.id/api/countries/SV`).then(res => {
       this.setState({
+        loading: false,
         confirmados: res.data.confirmed.value,
         muertes: res.data.deaths.value,
         recuperados: res.data.recovered.value
       });
     });
   };
-
   render() {
     const { classes } = this.props;
+    const loading = this.state.loading;
+
+    console.log(loading)
     return (
       <div className="App">
         <Grid item xs={12} sm={12}>
@@ -90,7 +94,8 @@ class App extends React.Component {
                     <p>informacion</p>
                   </Grid>
                   <Grid item xs={12} sm={5}>
-                    <Cards datos={this.state} />
+               <Loading />
+                    
                   </Grid>
                 </Grid>
               </div>
@@ -103,3 +108,4 @@ class App extends React.Component {
 }
 
 export default withStyles(useStyles)(App);
+//{loading ? <Loading /> : <Cards datos={this.state} />}
