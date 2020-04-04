@@ -90,8 +90,7 @@ class App extends React.Component {
                   spacing={1}
                 >
                   <Grid item xs={12} sm={6}>
-                    <Grafica />
-                    <p>informacion</p>
+                  <Grafica data={this.state}/>
                   </Grid>
                   <Grid item xs={12} sm={5}>
                   {loading ? <Loading /> : <Cards datos={this.state} />}
