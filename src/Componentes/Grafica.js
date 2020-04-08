@@ -11,8 +11,8 @@ class Grafica extends React.Component {
       datasets: [
         {
           data: [confirmados, muertes, recuperados],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+          backgroundColor: ["#4f9da6", "#ff5959", "#ccda46"],
+          hoverBackgroundColor: ["#4f9da6", "#ff5959", "#ccda46"]
         }
       ],
       labels: ["Contagiados", "Muertes", "Recuperados"]

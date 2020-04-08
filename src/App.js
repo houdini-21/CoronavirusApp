@@ -6,48 +6,49 @@ import { faChartBar } from "@fortawesome/free-solid-svg-icons";
 import Grafica from "./Componentes/Grafica";
 import Cards from "./Componentes/Cards";
 import axios from "axios";
-import Loading from './Componentes/Loading'
+import Loading from "./Componentes/Loading";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   root: {
     display: "flex",
     "& > *": {
       width: 1040,
-      height: 550
-    }
+      height: 550,
+    },
   },
   tittle: {
-    fontFamily: "Lato"
-    fontSize: 30
+    fontFamily: "Lato",
+    fontSize: 30,
+    color: '#262626'
   },
   container: {
     borderRadius: 10,
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary
-  }
+    color: theme.palette.text.secondary,
+  },
 });
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {loading:true, confirmados: 0, muertes: 0, recuperados: 0 };
+    this.state = { loading: true, confirmados: 0, muertes: 0, recuperados: 0 };
   }
 
   componentDidMount() {
     this.obtenerPost();
   }
 
-  obtenerPost =  => {
-    axios.get(`https://covid19.mathdro.id/api/countries/SV`).then(res => {
+  obtenerPost = () => {
+    axios.get(`https://covid19.mathdro.id/api/countries/SV`).then((res) => {
       this.setState({
         loading: false,
         confirmados: res.data.confirmed.value,
         muertes: res.data.deaths.value,
-        recuperados: res.data.recovered.value
+        recuperados: res.data.recovered.value,
       });
     });
   };
@@ -55,7 +56,7 @@ class App extends React.Component {
     const { classes } = this.props;
     const loading = this.state.loading;
 
-    console.log(loading)
+    console.log(loading);
     return (
       <div className="App">
         <Grid item xs={12} sm={12}>
@@ -90,11 +91,11 @@ class App extends React.Component {
                   spacing={1}
                 >
                   <Grid item xs={12} sm={6}>
-                  <Grafica data={this.state}/>
+                  {loading ? <Loading /> : <Grafica data={this.state} />}
+                   
                   </Grid>
                   <Grid item xs={12} sm={5}>
-                  {loading ? <Loading /> : <Cards datos={this.state} />}
-                    
+                    {loading ? <Loading /> : <Cards datos={this.state} />}
                   </Grid>
                 </Grid>
               </div>

@@ -8,10 +8,12 @@ const styles = theme => ({
     maxWidth: 250
   },
   title: {
-    fontSize: 17
+    fontSize: 17,
+    color: '#262626'
   },
   number: {
-    textAlign: "center"
+    textAlign: "center",
+    color: '#262626'
   }
 });
 
