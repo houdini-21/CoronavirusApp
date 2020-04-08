@@ -17,7 +17,7 @@ const useStyles = theme => ({
     }
   },
   tittle: {
-    fontFamily: "Lato",
+    fontFamily: "Lato"
     fontSize: 30
   },
   container: {
@@ -41,7 +41,7 @@ class App extends React.Component {
     this.obtenerPost();
   }
 
-  obtenerPost = () => {
+  obtenerPost =  => {
     axios.get(`https://covid19.mathdro.id/api/countries/SV`).then(res => {
       this.setState({
         loading: false,
