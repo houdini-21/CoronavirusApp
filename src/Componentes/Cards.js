@@ -23,9 +23,9 @@ class Cards extends React.Component {
 
     const { classes } = this.props;
 
-    const muertes = this.props.datos.muertes;
-    const confirmados = this.props.datos.confirmados;
-    const recuperados =this.props.datos.recuperados;
+    const muertes = this.props.datos.data.Deaths;
+    const confirmados = this.props.datos.data.Confirmed;
+    const recuperados = this.props.datos.data.Recovered;
     return (
       <Grid
         container

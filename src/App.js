@@ -7,6 +7,7 @@ import Grafica from "./Componentes/Grafica";
 import Cards from "./Componentes/Cards";
 import axios from "axios";
 import Loading from "./Componentes/Loading";
+import SearchBar from 'material-ui-search-bar-enhanced';
 
 const useStyles = (theme) => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = (theme) => ({
   tittle: {
     fontFamily: "Lato",
     fontSize: 30,
-    color: '#262626'
+    color: "#262626",
   },
   container: {
     borderRadius: 10,
@@ -35,7 +36,7 @@ const useStyles = (theme) => ({
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, confirmados: 0, muertes: 0, recuperados: 0 };
+    this.state = { loading: true, data: [] };
   }
 
   componentDidMount() {
@@ -43,19 +44,27 @@ class App extends React.Component {
   }
 
   obtenerPost = () => {
-    axios.get(`https://covid19.mathdro.id/api/countries/SV`).then((res) => {
-      this.setState({
-        loading: false,
-        confirmados: res.data.confirmed.value,
-        muertes: res.data.deaths.value,
-        recuperados: res.data.recovered.value,
+    var today = new Date();
+    var dd = String(today.getDate() - 1).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + "-" + mm + "-" + dd;
+    axios
+      .get(
+        `https://api.covid19api.com/live/country/el-salvador/status/confirmed/date/${today}T13:13:30Z`
+      )
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          loading: false,
+          data: res.data[0],
+        });
       });
-    });
   };
   render() {
     const { classes } = this.props;
     const loading = this.state.loading;
-
     console.log(loading);
     return (
       <div className="App">
@@ -90,9 +99,17 @@ class App extends React.Component {
                   alignItems="center"
                   spacing={1}
                 >
+                  <SearchBar
+                    onChange={() => console.log("onChange")}
+                    onRequestSearch={() => console.log("onRequestSearch")}
+                    onClear={() => console.log("onClear")}
+                    style={{
+                      margin: "0 auto",
+                      maxWidth: 800,
+                    }}
+                  />
                   <Grid item xs={12} sm={6}>
-                  {loading ? <Loading /> : <Grafica data={this.state} />}
-                   
+                    {loading ? <Loading /> : <Grafica data={this.state} />}
                   </Grid>
                   <Grid item xs={12} sm={5}>
                     {loading ? <Loading /> : <Cards datos={this.state} />}

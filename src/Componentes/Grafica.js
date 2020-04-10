@@ -3,16 +3,16 @@ import { Doughnut } from "react-chartjs-2";
 
 class Grafica extends React.Component {
   render() {
-    const muertes = this.props.data.muertes;
-    const confirmados = this.props.data.confirmados;
-    const recuperados = this.props.data.recuperados;
+    const muertes = this.props.data.data.Deaths;
+    const confirmados = this.props.data.data.Confirmed;
+    const recuperados = this.props.data.data.Recovered;
 
     const data = {
       datasets: [
         {
           data: [confirmados, muertes, recuperados],
-          backgroundColor: ["#4f9da6", "#ff5959", "#ccda46"],
-          hoverBackgroundColor: ["#4f9da6", "#ff5959", "#ccda46"]
+          backgroundColor: ["#00D1ED", "#ED2C0C", "#ABED0C"],
+          hoverBackgroundColor: ["#00D1ED", "#ED2C0C", "#ABED0C"]
         }
       ],
       labels: ["Contagiados", "Muertes", "Recuperados"]
