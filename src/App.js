@@ -7,7 +7,7 @@ import Grafica from "./Componentes/Grafica";
 import Cards from "./Componentes/Cards";
 import axios from "axios";
 import Loading from "./Componentes/Loading";
-import SearchBar from 'material-ui-search-bar-enhanced';
+import SearchBar from "search-bar-react";
 
 const useStyles = (theme) => ({
   root: {
@@ -99,15 +99,15 @@ class App extends React.Component {
                   alignItems="center"
                   spacing={1}
                 >
-                  <SearchBar
-                    onChange={() => console.log("onChange")}
-                    onRequestSearch={() => console.log("onRequestSearch")}
-                    onClear={() => console.log("onClear")}
-                    style={{
-                      margin: "0 auto",
-                      maxWidth: 800,
-                    }}
-                  />
+                  <Grid item xs={12} sm={12} className='search-bar'>
+                    <SearchBar
+                      onChange={(text) => console.log(text)}
+                      size="large"
+                      width="40%"
+                      placeholder="Search..."
+                      
+                    />
+                  </Grid>
                   <Grid item xs={12} sm={6}>
                     {loading ? <Loading /> : <Grafica data={this.state} />}
                   </Grid>
