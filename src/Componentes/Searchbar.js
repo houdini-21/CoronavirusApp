@@ -47,7 +47,7 @@ class SearchBar extends React.Component {
         <input
           ref={this.busquedaRef}
           className="search-bar"
-          placeholder="Search Google Maps"
+          placeholder="Buscador de Pais"
         />
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
