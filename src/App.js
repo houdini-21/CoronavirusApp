@@ -7,7 +7,7 @@ import Grafica from "./Componentes/Grafica";
 import Cards from "./Componentes/Cards";
 import axios from "axios";
 import Loading from "./Componentes/Loading";
-import SearchBar from "search-bar-react";
+import Searchbar from "./Componentes/Searchbar";
 
 const useStyles = (theme) => ({
   root: {
@@ -32,27 +32,44 @@ const useStyles = (theme) => ({
     color: theme.palette.text.secondary,
   },
 });
+let pais;
 
+let today;
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, data: [] };
+    this.state = { loading: true, data: [], pais: "el salvador" };
   }
+
+  obtenerfecha = () => {
+    today = new Date();
+    var dd = String(today.getDate() - 1).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0");
+    var yyyy = today.getFullYear();
+    today = yyyy + "-" + mm + "-" + dd;
+  };
 
   componentDidMount() {
-    this.obtenerPost();
+    this.obtenerfecha();
+    this.obtenerDatos();
   }
 
-  obtenerPost = () => {
-    var today = new Date();
-    var dd = String(today.getDate() - 1).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
+  datosBusqueda = (termino) => {
+    this.setState(
+      {
+        pais: termino,
+      },
+      () => {
+        this.obtenerDatos();
+      }
+    );
+  };
 
-    today = yyyy + "-" + mm + "-" + dd;
+  obtenerDatos = () => {
+    pais = this.state.pais;
     axios
       .get(
-        `https://api.covid19api.com/live/country/el-salvador/status/confirmed/date/${today}T13:13:30Z`
+        `https://api.covid19api.com/live/country/${pais}/status/confirmed/date/${today}T13:13:30Z`
       )
       .then((res) => {
         console.log(res.data);
@@ -65,7 +82,7 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     const loading = this.state.loading;
-    console.log(loading);
+
     return (
       <div className="App">
         <Grid item xs={12} sm={12}>
@@ -88,7 +105,7 @@ class App extends React.Component {
                   <Grid item>
                     <FontAwesomeIcon icon={faChartBar} size="lg" />
                   </Grid>
-                  <h3 className={classes.tittle}>Estadisticas Coronavirus</h3>
+                  <h3 className={classes.tittle}>Estadisticas Coronavirus {pais}</h3>
                 </Grid>
               </Grid>
               <div className="content">
@@ -100,14 +117,9 @@ class App extends React.Component {
                   spacing={1}
                 >
                   <Grid item xs={12} sm={12} className='search-bar'>
-                    <SearchBar
-                      onChange={(text) => console.log(text)}
-                      size="large"
-                      width="40%"
-                      placeholder="Search..."
-                      
-                    />
+                    <Searchbar datosBusqueda={this.datosBusqueda} />
                   </Grid>
+
                   <Grid item xs={12} sm={6}>
                     {loading ? <Loading /> : <Grafica data={this.state} />}
                   </Grid>
